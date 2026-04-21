@@ -1,27 +1,23 @@
 // spec: specs/get-coffee-from-brazil.md
 // seed: tests/seed.spec.ts
 
-import { test, expect } from '@playwright/test';
-import { CoffeeShopHomePage } from '../../src/page-objects/CoffeeShopHomePage';
+import { coffeeShopTest as test, expect } from '../fixtures';
 
 test.describe('Brazilian Coffee Price Discovery', () => {
-  test('View Brazilian coffee price from home page featured section', async ({ page }) => {
-    // Initialize page object
-    const homePage = new CoffeeShopHomePage(page);
-
+  test('View Brazilian coffee price from home page featured section', async ({ coffeeShopHomePage }) => {
     // 1. Navigate to https://valentinos-magic-beans.click/
-    await homePage.goto();
-    await homePage.verifyPageUrl();
-    await homePage.verifyPageTitle();
-    await homePage.verifyFeaturedCoffeesSectionVisible();
+    await coffeeShopHomePage.goto();
+    await coffeeShopHomePage.verifyPageUrl();
+    await coffeeShopHomePage.verifyPageTitle();
+    await coffeeShopHomePage.verifyFeaturedCoffeesSectionVisible();
 
     // 2. Scroll down to locate the Featured Coffees section
-    await homePage.scrollFeaturedSectionIntoView();
-    await homePage.verifyFeaturedCoffeesSectionVisible();
-    await homePage.verifyBrazilianSantosCardVisible();
+    await coffeeShopHomePage.scrollFeaturedSectionIntoView();
+    await coffeeShopHomePage.verifyFeaturedCoffeesSectionVisible();
+    await coffeeShopHomePage.verifyBrazilianSantosCardVisible();
 
     // Get the Brazilian Santos product card
-    const brazilianCard = await homePage.getBrazilianSantosCard();
+    const brazilianCard = await coffeeShopHomePage.getBrazilianSantosCard();
 
     // 3. Identify the price displayed for Brazilian Santos coffee
     const expectedPrice = '$22.99';

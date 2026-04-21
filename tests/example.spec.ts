@@ -1,27 +1,20 @@
-import { test } from '@playwright/test';
-import { PlaywrightDevPage } from '../src/page-objects/PlaywrightDevPage';
+import { playwrightDevTest as test } from './fixtures';
 
-test('has title', async ({ page }) => {
-  // Initialize page object
-  const playwrightPage = new PlaywrightDevPage(page);
-
+test('has title', async ({ playwrightDevPage }) => {
   // Navigate to Playwright documentation home page
-  await playwrightPage.goto();
+  await playwrightDevPage.goto();
 
   // Verify page title contains 'Playwright'
-  await playwrightPage.verifyPageTitle();
+  await playwrightDevPage.verifyPageTitle();
 });
 
-test('get started link', async ({ page }) => {
-  // Initialize page object
-  const playwrightPage = new PlaywrightDevPage(page);
-
+test('get started link', async ({ playwrightDevPage }) => {
   // Navigate to Playwright documentation home page
-  await playwrightPage.goto();
+  await playwrightDevPage.goto();
 
   // Click the Get Started link
-  await playwrightPage.clickGetStartedLink();
+  await playwrightDevPage.clickGetStartedLink();
 
   // Verify the Installation heading is visible
-  await playwrightPage.verifyInstallationHeadingVisible();
+  await playwrightDevPage.verifyInstallationHeadingVisible();
 });

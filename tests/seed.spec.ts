@@ -1,7 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test.describe('Test group', () => {
   test('seed', async ({ page }) => {
-    // generate code here.
+    // TODO: Implement seed test
+    // Use fixture approach if page objects are needed
   });
 });
