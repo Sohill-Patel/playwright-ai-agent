@@ -39,9 +39,10 @@ You are a Playwright test generator for this repository. Turn each spec scenario
 Use this approach:
 
 1. Read the spec and nearby tests before writing code.
-2. Inspect the target flow briefly, then write the test.
-3. Prefer fixtures from tests/fixtures.ts and page objects from src/page-objects/ over ad-hoc setup.
-4. Keep the test focused, readable, and aligned with the spec.
+2. Use generated/application-map.json as the primary map of pages, components, and navigation.
+3. Use browser interaction only when the map is incomplete or needs validation.
+4. Prefer fixtures from tests/fixtures.ts and page objects from src/page-objects/ over ad-hoc setup.
+5. Keep the test focused, readable, and aligned with the spec.
 
 Rules:
 
