@@ -4,12 +4,171 @@
     "name": "Playwright AI Agent Demo",
     "baseUrl": "https://valentinos-magic-beans.click"
   },
-  "pages": [
-    {
-      "id": "home",
-      "path": "/",
-      "title": "Home",
-      "description": "Landing page with featured products and navigation",
+    "version": "1.1.0",
+    "application": {
+      "name": "Playwright AI Agent Demo",
+      "baseUrl": "https://valentinos-magic-beans.click"
+    },
+    "pages": [
+      {
+        "id": "home",
+        "path": "/",
+        "title": "Home",
+        "description": "Landing page with featured products and navigation",
+        "selectors": {
+          "featuredSection": "text=Featured Coffees",
+          "featuredSectionContainer": "[data-testid=\"featured-section\"]",
+          "brazilCard": "data-testid=product-card-504",
+          "brazilPriceOnHome": "data-testid=product-card-504 >> [data-testid=price]",
+          "brazilDescriptionOnHome": "data-testid=product-card-504 >> [data-testid=description]"
+        },
+        "components": ["featured-products", "navigation"],
+        "testHints": [
+          "Use data-testid product-card-504 to target Brazilian Santos on home",
+          "Verify featured section shows price and description"
+        ]
+      },
+      {
+        "id": "products",
+        "path": "/products",
+        "title": "Shop",
+        "description": "Product listing page for the coffee catalog",
+        "selectors": {
+          "heading": "text=Our Coffee Collection",
+          "productGrid": "[data-testid=\"product-grid\"]",
+          "brazilCard": "data-testid=product-card-504",
+          "brazilPrice": "data-testid=product-card-504 >> [data-testid=price]",
+          "brazilViewDetails": "data-testid=product-card-504 >> [data-testid=view-details]",
+          "brazilAddToCart": "data-testid=product-card-504 >> [data-testid=add-to-cart]"
+        },
+        "components": ["product-grid", "product-card"],
+        "testHints": [
+          "Brazilian Santos should be first product in grid (use positional assertion if needed)",
+          "Card contains image, description, price, and CTAs"
+        ]
+      },
+      {
+        "id": "product-detail",
+        "path": "/products/:id",
+        "title": "Product Detail",
+        "description": "Detailed product page with price and specifications",
+        "selectors": {
+          "title": "h1",
+          "price": "[data-testid=\"product-price\"]",
+          "description": "[data-testid=\"product-description\"]",
+          "origin": "[data-testid=\"product-origin\"]",
+          "specs": {
+            "roast": "[data-testid=\"product-roast\"]",
+            "weight": "[data-testid=\"product-weight\"]",
+            "processing": "[data-testid=\"product-processing\"]"
+          },
+          "tastingNotes": "[data-testid=\"tasting-notes\"]",
+          "promotions": "[data-testid=\"product-promotions\"]",
+          "addToCartLabel": "[data-testid=\"add-to-cart\"]",
+          "addToCartButton": "[data-testid=\"add-to-cart\"]",
+          "backToProducts": "text=Back to Products"
+        },
+        "components": ["product-details", "add-to-cart"],
+        "testHints": [
+          "Use /products/504 for Brazilian Santos detail checks",
+          "Verify add-to-cart label contains price text \"Add to Cart - $22.99\""
+        ]
+      },
+      {
+        "id": "cart",
+        "path": "/cart",
+        "title": "Shopping Cart",
+        "description": "Cart page showing items, quantities, and totals",
+        "selectors": {
+          "cartItem": "css=li[data-testid=\"cart-item-504\"]",
+          "cartItemPrice": "css=li[data-testid=\"cart-item-504\"] >> [data-testid=price]",
+          "subtotal": "[data-testid=\"cart-subtotal\"]",
+          "checkoutButton": "[data-testid=\"checkout\"]"
+        },
+        "components": ["cart-list", "checkout"],
+        "testHints": [
+          "Verify cart item and subtotal reflect item price $22.99"
+        ]
+      }
+    ],
+    "components": [
+      {
+        "id": "navigation",
+        "type": "navbar",
+        "description": "Top navigation for home, shop, and cart",
+        "selectors": {
+          "shopLink": "text=Shop",
+          "cartLink": "text=Cart"
+        }
+      },
+      {
+        "id": "featured-products",
+        "type": "section",
+        "description": "Featured coffee products section on the home page",
+        "selectors": {
+          "section": "text=Featured Coffees",
+          "container": "[data-testid=\"featured-section\"]"
+        }
+      },
+      {
+        "id": "product-grid",
+        "type": "grid",
+        "description": "Grid of product cards",
+        "selectors": {
+          "grid": "[data-testid=\"product-grid\"]",
+          "firstCard": "[data-testid=\"product-grid\"] > li:nth-child(1)"
+        }
+      },
+      {
+        "id": "product-card",
+        "type": "card",
+        "description": "Reusable card component for a coffee product",
+        "selectors": {
+          "root": "[data-testid^=\"product-card-\"]",
+          "image": "[data-testid^=\"product-card-\"] img",
+          "title": "[data-testid^=\"product-card-\"] [data-testid=\"title\"]",
+          "description": "[data-testid^=\"product-card-\"] [data-testid=\"description\"]",
+          "price": "[data-testid^=\"product-card-\"] [data-testid=\"price\"]",
+          "viewDetails": "[data-testid^=\"product-card-\"] [data-testid=\"view-details\"]",
+          "addToCart": "[data-testid^=\"product-card-\"] [data-testid=\"add-to-cart\"]"
+        }
+      },
+      {
+        "id": "add-to-cart",
+        "type": "button",
+        "description": "Add to cart CTA shown on product cards and detail pages",
+        "selectors": {
+          "label": "text=Add to Cart",
+          "detailButton": "[data-testid=\"add-to-cart\"]",
+          "cardButton": "[data-testid^=\"product-card-\"] [data-testid=\"add-to-cart\"]"
+        }
+      }
+    ],
+    "navigation": [
+      {
+        "from": "home",
+        "to": "products",
+        "label": "Shop",
+        "description": "Open the product catalog"
+      },
+      {
+        "from": "products",
+        "to": "product-detail",
+        "label": "View Details",
+        "description": "Open a product detail page"
+      },
+      {
+        "from": "any",
+        "to": "cart",
+        "label": "Cart",
+        "description": "Open shopping cart"
+      }
+    ],
+    "testPlanningNotes": [
+      "Prefer data-testid and role-based selectors for stability",
+      "Use saved product id 504 (Brazilian Santos) for direct detail and cart routes",
+      "Map page objects to selectors: HomePage -> featuredSection and brazilCard, ProductsPage -> productGrid and brazilCard, ProductDetailPage -> price/description/specs, CartPage -> cartItem and subtotal"
+    ]
       "selectors": {
         "featuredSection": "text=Featured Coffees"
       },

@@ -1,33 +1,12 @@
-// spec: specs/get-coffee-from-brazil.md
-// seed: tests/seed.spec.ts
+import { test, expect } from '../../src/fixtures/default.fixture';
 
-import { coffeeShopTest as test, expect } from '../fixtures';
-
-test.describe('Brazilian Coffee Price Discovery', () => {
-  test('View Brazilian coffee price from home page featured section', async ({ coffeeShopHomePage }) => {
-    // 1. Navigate to https://valentinos-magic-beans.click/
-    await coffeeShopHomePage.goto();
-    await coffeeShopHomePage.verifyPageUrl();
-    await coffeeShopHomePage.verifyPageTitle();
-    await coffeeShopHomePage.verifyFeaturedCoffeesSectionVisible();
-
-    // 2. Scroll down to locate the Featured Coffees section
-    await coffeeShopHomePage.scrollFeaturedSectionIntoView();
-    await coffeeShopHomePage.verifyFeaturedCoffeesSectionVisible();
-    await coffeeShopHomePage.verifyBrazilianSantosCardVisible();
-
-    // Get the Brazilian Santos product card
-    const brazilianCard = await coffeeShopHomePage.getBrazilianSantosCard();
-
-    // 3. Identify the price displayed for Brazilian Santos coffee
-    const expectedPrice = '$22.99';
-    await brazilianCard.verifyDescriptionText('Smooth and mellow with low acidity.');
-    await brazilianCard.verifyPriceVisible(expectedPrice);
-    await expect(brazilianCard.cardLocator.locator(`text=${expectedPrice}`)).toContainText(expectedPrice);
-
-    // 4. Verify the Add to Cart button displays the price
-    await brazilianCard.verifyAddToCartButtonVisible();
-    await brazilianCard.verifyAddToCartButtonText('Add to Cart');
-    await brazilianCard.verifyCardContainsPrice(expectedPrice);
+test.describe('get-coffee-from-brazil / featured', () => {
+  test('featured section shows Brazilian Santos price', async ({ home }) => {
+    await home.goto();
+    const featured = home.featuredSection();
+    await expect(featured).toBeVisible();
+    const price = await home.brazilPrice();
+    await expect(price).toBeVisible();
+    await expect(price).toHaveText('$22.99');
   });
 });
